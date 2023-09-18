@@ -1,62 +1,106 @@
-# SvelteKit Extension Template
-By Luke Hagar
+# Svelte + TS + Vite + Tailwind CSS
 
+[Svelte and Tailwind for Chrome Extension](https://carlogino.com/blog/svelte-chromium-extension)
 
-Built with [Sveltekit](https://kit.svelte.dev) and [Skeleton](https://www.skeleton.dev)
+[VS Code need set svelte plugin setting enable: svelte.enable-ts-plugin](https://github.com/sveltejs/language-tools/tree/master/packages/svelte-vscode#svelteenable-ts-plugin)
 
-Out of the box Includes:
-   * [x] Skeleton
-   * [x] Tailwind
-   * [x] Chrome Types
-   * [x] ESlint
-   * [x] Prettier
-   * [x] TypeScript
-   * [x] Vite
-   * [x] Vitest
+## Vite
 
+### Init with Vite、Svelte、TypeScript
 
-
-
-## Reference Documentation
-
-
-[Extension Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/)
-
-
-
-## Developing 
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-NPM:
 ```bash
+npm init vite
+cd [your-project-name]
+npm install
 npm run dev
 ```
-Yarn:
-```bash
-yarn dev
-```
-pnpm:
-```bash
-pnpm dev
-```
 
-## Building
+## Tailwind CSS
 
-To create a production version of your app:
+### Install & Tnit
 
-NPM:
 ```bash
-npm run build
-```
-Yarn:
-```bash
-yarn build
-```
-pnpm:
-```bash
-pnpm build
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init tailwind.config.cjs -p
 ```
 
+### Modify tailwind.config.js
 
-> To deploy your app, you can load it as an unpacked chrome extension, instructions are in [Extension Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/)
+```js
+export default {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
+  // ...
+}
+```
+
+### Modify src/app.css
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+h1 {
+  @apply text-4xl font-bold;
+}
+h2 {
+  @apply text-3xl font-bold;
+}
+```
+
+## CRXJS
+
+### Install beta version for vite@3.0+
+
+```bash
+npm i @crxjs/vite-plugin@beta -D
+```
+
+## Chrome Manifest.json
+
+### Create manifest.json
+
+Reference
+[V3](https://developer.chrome.com/docs/extensions/mv3/intro/)
+
+### Update tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+   // ...
+    "baseUrl": ".",
+   }
+}
+```
+
+### Update tsconfig.node.json
+
+```json
+{
+  "compilerOptions": {
+    // other props
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts", "manifest.json"]
+}
+```
+
+### Update vite.config.js
+
+```js
+import { crx } from "@crxjs/vite-plugin";
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import manifest from "./manifest.json";
+
+export default defineConfig({
+  plugins: [svelte(), crx({ manifest })],
+});
+```
+
+## TypeScript types support for Chrome Plugin
+
+```bash
+npm i -D @types/chrome
+```

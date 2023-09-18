@@ -1,0 +1,58 @@
+
+{
+    "manifest_version": 3,
+    "name": "chrome-extension-svelte-typescript-boilerplate",
+    "description": "Boilerplate for Chrome Extension Svelte Typescript project",
+    "version": "1.0.0",
+    "version_name": "1.0.0",
+    "icons": {
+      "16": "public/icons/favicon16.png",
+      "32": "public/icons/favicon32.png",
+      "96": "public/icons/favicon96.png"
+    },
+    "content_scripts": [
+      {
+        "js": [
+          "src/content.ts"
+        ],
+        "run_at": "document_end",
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ],
+    "background": {
+      "service_worker": "src/background.ts",
+      "type": "module"
+    },
+    "action": {
+      "default_popup": "src/popup/index.html",
+      "default_icon": {
+        "16": "public/icons/favicon16.png",
+        "32": "public/icons/favicon32.png",
+        "96": "public/icons/favicon96.png"
+      }
+    },
+    "permissions": [
+      "storage",
+      "sidePanel",
+      "activeTab",
+      "tabs",
+      "scripting",
+      "bookmarks",
+      "nativeMessaging",
+      "declarativeNetRequest",
+      "webRequest",
+      "background",
+      "cookies",
+      "downloads",
+      "management"
+    ],
+    "host_permissions": [
+      "https://www.notion.so/*",
+      "https://file.notion.so/*",
+      "https://www.mainblocs.com/*",
+      "<all_urls>"
+    ]
+  }
+  
